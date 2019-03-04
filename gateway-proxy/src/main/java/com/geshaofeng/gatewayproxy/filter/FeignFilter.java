@@ -11,7 +11,6 @@ import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -25,7 +24,7 @@ import java.util.List;
  * @see
  * @since 2019/2/22
  */
-@Component
+//@Component
 public class FeignFilter implements GlobalFilter, Ordered {
 
     private Logger logger = LoggerFactory.getLogger(FeignFilter.class);

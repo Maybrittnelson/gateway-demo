@@ -1,4 +1,4 @@
-package com.geshaofeng.gatewayproxy.controller;
+package com.geshaofeng.gatewayproxy.routes.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
