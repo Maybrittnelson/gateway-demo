@@ -17,4 +17,10 @@ public interface RouteService {
     int updateRoute(Long id, RouteEntity routeEntity);
 
     RouteEntity findRouteById(Long id);
+
+    /**
+     * redis pub
+     * @param message
+     */
+    void publish(String message);
 }

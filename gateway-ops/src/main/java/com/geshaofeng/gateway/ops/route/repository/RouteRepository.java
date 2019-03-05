@@ -2,12 +2,12 @@ package com.geshaofeng.gateway.ops.route.repository;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.geshaofeng.gateway.ops.route.repository.entity.FilterDefinition;
-import com.geshaofeng.gateway.ops.route.repository.entity.PredicateDefinition;
 import com.geshaofeng.gateway.ops.route.repository.entity.RouteEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.gateway.filter.FilterDefinition;
+import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -29,12 +29,13 @@ public class RouteRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+
     private RowMapper<RouteEntity> rowMapper = (resultSet, i) -> {
         RouteEntity route = new RouteEntity();
         route.setId(resultSet.getLong("id"));
         route.setUri(resultSet.getString("uri"));
         route.setOrder(resultSet.getInt("order"));
-        route.setStatus(resultSet.getInt("status"));
+        route.setState(resultSet.getInt("status"));
         route.setRouteId(resultSet.getString("route_id"));
         List<PredicateDefinition> predicates = JSONObject.parseArray(resultSet.getString("predicates"), PredicateDefinition.class);
         route.setPredicates(predicates);
@@ -63,11 +64,12 @@ public class RouteRepository {
 
     public int updateRoute(Long id, RouteEntity route) {
         int update = 0;
-        String sql = "update route set route_id=?, uri=?, `order`=?, predicates=?, filters=?" +
+        String sql = "update route set route_id=?, uri=?, `status`=?, `order`=?, predicates=?, filters=?" +
                 "where id=?";
         List<Object> args = new ArrayList<>();
         args.add(route.getRouteId());
         args.add(route.getUri());
+        args.add(route.getState());
         args.add(route.getOrder());
         args.add(JSON.toJSON(route.getPredicates()).toString());
         args.add(JSON.toJSON(route.getFilters()).toString());

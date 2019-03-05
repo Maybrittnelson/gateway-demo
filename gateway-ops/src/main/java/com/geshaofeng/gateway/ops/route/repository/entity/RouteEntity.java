@@ -1,6 +1,8 @@
 package com.geshaofeng.gateway.ops.route.repository.entity;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import org.springframework.cloud.gateway.filter.FilterDefinition;
+import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
@@ -30,7 +32,7 @@ public class RouteEntity implements Serializable {
     private List<PredicateDefinition> predicates;
     @Valid
     private List<FilterDefinition> filters;
-    private int status;
+    private int state;
 
     public Long getId() {
         return id;
@@ -80,12 +82,12 @@ public class RouteEntity implements Serializable {
         this.filters = filters;
     }
 
-    public int getStatus() {
-        return status;
+    public int getState() {
+        return state;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setState(int state) {
+        this.state = state;
     }
 
     @Override
@@ -97,7 +99,7 @@ public class RouteEntity implements Serializable {
                 ", order=" + order +
                 ", predicates=" + predicates +
                 ", filters=" + filters +
-                ", status=" + status +
+                ", state=" + state +
                 '}';
     }
 }

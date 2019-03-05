@@ -31,8 +31,8 @@ public class RoutesController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(buildRetBody(403, "routeId：" + route.getRouteId() + "已存在", null));
         }
         HashMap<Object, Object> map = new HashMap<>();
-        map.put("id", i);
-        return ResponseEntity.created(URI.create("/routes" + i)).body(buildRetBody(0, "success", map));
+        map.put("route_id", route.getRouteId());
+        return ResponseEntity.created(URI.create("/routes" + route.getRouteId())).body(buildRetBody(0, "success", map));
     }
 
     @PutMapping("/routes/{id}")
@@ -41,6 +41,9 @@ public class RoutesController {
         if (i == 0) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(buildRetBody(403, "routeId：" + route.getRouteId() + "已存在", null));
         }
+
+        //redis pub
+        routeService.publish("update route");
         return ResponseEntity.ok(buildRetBody(0, "success", null));
     }
 
