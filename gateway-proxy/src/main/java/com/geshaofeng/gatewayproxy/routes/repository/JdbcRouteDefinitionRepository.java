@@ -1,20 +1,12 @@
 package com.geshaofeng.gatewayproxy.routes.repository;
 
-import com.alibaba.fastjson.JSONObject;
-import com.geshaofeng.gatewayproxy.routes.repository.entity.RouteEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.cloud.gateway.route.RouteDefinitionRepository;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * 实现基于{@link org.springframework.cloud.gateway.route.InMemoryRouteDefinitionRepository}
@@ -23,21 +15,27 @@ import java.util.Map;
  * @see
  * @since 2019/2/27
  */
-@Component
+//@Component
 public class JdbcRouteDefinitionRepository implements RouteDefinitionRepository {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    ReactiveRedisTemplate<String, String> stringReactiveRedisTemplate;
 
     public static final String KEY = "route";
 
     @Override
     public Flux<RouteDefinition> getRouteDefinitions() {
+/*        factory.getReactiveConnection().serverCommands().flushAll().thenMany(
+                routeOps.opsForHash().entries(KEY)
+        ).subscribe(entries -> {
+            Object key = entries.getKey();
+
+        });
         ArrayList<RouteDefinition> list = new ArrayList<>();
-        Map<Object, Object> entries = stringRedisTemplate.opsForHash().entries(KEY);
+        Map<Object, Object> entries = routeOps.opsForHash().entries(KEY);
         for (Map.Entry<Object, Object> entry : entries.entrySet()) {
             String key = (String) entry.getKey();
             String json = entries.get(key).toString();
@@ -56,7 +54,8 @@ public class JdbcRouteDefinitionRepository implements RouteDefinitionRepository 
             routeDefinition.setPredicates(route.getPredicates());
             list.add(routeDefinition);
         }
-        return Flux.fromIterable(list);
+        return Flux.fromIterable(list);*/
+return null;
     }
 
     @Override
